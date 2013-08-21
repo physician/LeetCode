@@ -19,10 +19,11 @@
  Output: index1=1, index2=2
 
  Notes:
- 1. The implementation uses unordered_map to construct hash table.
- 2. Use unordered_map.find() for lookup to avoid unintended insertion.
- 3. The hash function is simply to mod the number against the predefined hash size, here it's set to be HASHSIZE = 10000.
- 4. Compile using g++: g++ -std=c++0x TwoSum.cpp -o TwoSum
+ 1. First implementation, use unordered_map as hashtable.
+ 2. Use unordered_map< int, list<tuple> > as the data structure, use list.push_front() to make insertion of conflict elements efficient.
+ 3. Use unordered_map.find() for lookup to avoid unintended insertion.
+ 4. The hash function is simply to mod the number against the predefined hash size, here it's set to be HASHSIZE = 10000.
+ 5. Compile using g++: g++ -std=c++0x TwoSum.cpp -o TwoSum.
 */
 
 # include <iostream>
