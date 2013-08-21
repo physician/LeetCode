@@ -15,7 +15,8 @@
  Output: 7 -> 0 -> 8
 
  Notes:
- 1. Compile using g++: g++ AddTwoNumbers.cpp -o AddTwoNumbers
+ 1. First implementation, use two ListNode pointers. 
+ 2. Compile using g++: g++ AddTwoNumbers.cpp -o AddTwoNumbers
 */
 
 # include <iostream>
