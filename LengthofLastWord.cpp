@@ -26,6 +26,7 @@
 */
 
 # include <iostream>
+# include <string.h>
 
 using namespace std;
 
@@ -35,10 +36,13 @@ public:
         if (*s == '\0')
             return 0;
         int len = 0;
+/*
         const char *t = s;
         while (*t != '\0')
             t++;
         t--;
+*/
+        const char *t = s + strlen(s) - 1;
         while(t >= s && *t == ' ')
             t--;
         while (t >= s && *t != ' ') {
