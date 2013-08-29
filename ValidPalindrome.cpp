@@ -22,9 +22,11 @@
 
  Notes:
  1. First implementation, use two pointers.
- 2. <ctype.h> contains a series of useful char functions. e.g. isalpha(), isdigit(), tolower(), toupper(), islower(), isupper(), ..., etc.
+ 2. <ctype.h> contains a series of useful char functions. e.g. isalnum(), isalpha(), isdigit(), tolower(), toupper(), islower(), isupper(), ..., etc.
  3. Be careful to test special cases, e.g. empty string, non-alphanumeric string(substring).
- 4. Compile using g++: g++ ValidPalindrome.cpp -o ValidPalindrome.
+ 4. If only want to increment variable, use pre-increment form ++i instead of post-increment form i++.
+ 5. Write simpler code. Simplify logic. 
+ 6. Compile using g++: g++ ValidPalindrome.cpp -o ValidPalindrome.
 */
 
 
@@ -37,20 +39,24 @@ using namespace std;
 class Solution {
 public:
     bool isPalindrome(string s) {
-        if (s.size() == 0) 
-            return true;       // empty string
+        // check not necessary
+        //if (s.size() == 0) 
+        //    return true;       // empty string
         int i = 0;
         int j = s.size()-1;
         while (i <= j) {
-            while (i <= j && !isalpha(s[i]) && !isdigit(s[i]))
-                i++;
-            while (i <= j && !isalpha(s[j]) && !isdigit(s[j]))
-                j--;
+            //while (i <= j && !isalpha(s[i]) && !isdigit(s[i]))
+            while (i <= j && !isalnum(s[i]))
+                ++i;
+            //while (i <= j && !isalpha(s[j]) && !isdigit(s[j]))
+            while (i <= j && !isalnum(s[j]))
+                --j;
             if (i > j)
                 return true;   // non-alphanumeric string(substring)
-            if (i <= j && tolower(s[i]) == tolower(s[j])) {
-                i++;
-                j--;
+            //if (i <= j && tolower(s[i]) == tolower(s[j])) {
+            if (tolower(s[i]) == tolower(s[j])) {
+                ++i;
+                --j;
             }
             else
                 return false;
