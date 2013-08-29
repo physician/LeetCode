@@ -24,6 +24,36 @@
  4. Compile using g++: g++ RemoveDuplicatesfromSortedArrayII.cpp -o RemoveDuplicatesfromSortedArrayII
 */
 
+/* 
+********************************************************************************
+
+General Algorithm:
+
+ Remove Duplicates from Sorted Array: 
+
+ Duplicates are allowed at most k times.
+
+
+class Solution {
+public:
+    int removeDuplicates(int A[], int n, int k) {
+        if (n < k)
+            return k;
+        int i = k-1;
+        int j = k;
+        while (j < n) {
+            if (A[j] != A[i-(k-1)]) {
+                A[++i] = A[j];
+            }
+            j++;
+        }
+        return i + 1;
+    }
+};
+
+********************************************************************************
+*/
+
 # include <iostream>
 
 using namespace std;
