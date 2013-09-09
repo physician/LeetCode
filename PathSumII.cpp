@@ -31,7 +31,8 @@
 
  Notes:
  1. First implementation, recursion, pass by reference.
- 2. Compile using g++: g++ PathSumII.cpp -o PathSumII.
+ 2. Second implementation, recursion, pass by value.
+ 3. Compile using g++: g++ PathSumII.cpp -o PathSumII.
 */
 
 # include <iostream>
@@ -65,6 +66,13 @@ public:
         return result;
     }
 
+    vector<vector<int> > pathSum2(TreeNode *root, int sum) {
+        vector<vector<int> > result;
+        vector<int> path;
+        pathSumRe2(root, sum, result, path);
+        return result;
+    }
+
 private:
     void pathSumRe(TreeNode *root, int sum, vector<vector<int> > &result, vector<int> &path) {
         if (root == NULL)
@@ -83,6 +91,24 @@ private:
             pathSumRe(root->right, sum-(root->val), result, path);
             path.pop_back();
         }
+    }
+
+    void pathSumRe2(TreeNode *root, int sum, vector<vector<int> > &result, vector<int> path) {
+        if (root == NULL)
+            return;
+        if (root->left == NULL && root->right == NULL) {
+            if (root->val == sum) {
+                path.push_back(root->val);
+                result.push_back(path);
+            }
+            return;
+        }
+        else {
+            path.push_back(root->val);
+            pathSumRe2(root->left, sum-(root->val), result, path);
+            pathSumRe2(root->right, sum-(root->val), result, path);
+        }
+        
     }
 };
 
