@@ -27,7 +27,7 @@
  Notes:
  1. First implementation, recursion. Time: O(N), Space: O(N).
  2. Could factor the repetitive work into a helper function. e.g. void InorderTraversalRecursion(TreeNode *, vector<int> &). More efficient.
- 2. Compile using g++: g++ BinaryTreeInorderTraversal.cpp -o BinaryTreeInorderTraversal.
+ 3. Compile using g++: g++ BinaryTreeInorderTraversal.cpp -o BinaryTreeInorderTraversal.
 */
 
 # include <iostream>
