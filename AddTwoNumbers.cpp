@@ -16,7 +16,7 @@
 
  Notes:
  1. First implementation, use two ListNode pointers. 
- 2. Compile using g++: g++ AddTwoNumbers.cpp -o AddTwoNumbers
+ 2. Compile using g++: g++ AddTwoNumbers.cpp -o AddTwoNumbers.
 */
 
 # include <iostream>
