@@ -23,7 +23,7 @@
 
  Notes:
  1. First implementation, use two ListNode pointers, maintain front - back = n.
- 2. Compile using g++: g++ RemoveNthNodeFromEndofList.cpp -o RemoveNthNodeFromEndofList
+ 2. Compile using g++: g++ RemoveNthNodeFromEndofList.cpp -o RemoveNthNodeFromEndofList.
 */
 
 # include <iostream>
