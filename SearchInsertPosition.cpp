@@ -21,7 +21,7 @@
  
  Notes:
  1. First implementation, binary search.
- 2. Compile using g++: g++ SearchInsertPosition.cpp -o SearchInsertPosition
+ 2. Compile using g++: g++ SearchInsertPosition.cpp -o SearchInsertPosition.
 */
 
 # include <iostream>
