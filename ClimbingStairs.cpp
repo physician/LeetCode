@@ -15,7 +15,8 @@
 
  Notes:
  1. First implementation, DP.
- 2. Compile using g++: g++ ClimbingStairs.cpp -o ClimbingStairs.
+ 2. Second implementation, DP, improved space complexity.
+ 3. Compile using g++: g++ ClimbingStairs.cpp -o ClimbingStairs.
 */
 
 
@@ -38,10 +39,26 @@ public:
             return stairs[n-1];  
         }      
     }
+
+    int climbStairs1(int n) {
+        if(n <= 2)
+            return n;
+        else {
+            int oneAway = 1;
+            int twoAway = 2;
+            int numOfStairs = 0;
+            for(int i = 2; i < n; ++i) {
+                numOfStairs = oneAway + twoAway;
+                oneAway = twoAway;
+                twoAway = numOfStairs;
+            }
+            return numOfStairs;
+        }
+    }
 };
 
 int main() {
     int n = 10;
     Solution sol;
-    cout << "There are " << sol.climbStairs(n) << " distinct ways you can climb to the top of the stairs with " << n << " steps." << endl;
+    cout << "There are " << sol.climbStairs1(n) << " distinct ways you can climb to the top of the stairs with " << n << " steps." << endl;
 }
