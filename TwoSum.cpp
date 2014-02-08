@@ -1,10 +1,10 @@
 /*
  Author:     physician
  Date:       Aug 18, 2013
- Update:     Aug 18, 2013
+ Update:     Feb 08, 2014
  Problem:    Two Sum
  Difficulty: Easy
- Source:     http://leetcode.com/onlinejudge#question_1
+ Source:     http://oj.leetcode.com/problems/two-sum/
 
  Problem Description:
  Two Sum: 
@@ -19,68 +19,44 @@
  Output: index1=1, index2=2
 
  Notes:
- 1. First implementation, use unordered_map as hashtable.
- 2. Use unordered_map< int, list<tuple> > as the data structure, use list.push_front() to make insertion of conflict elements efficient.
- 3. Use unordered_map.find() for lookup to avoid unintended insertion.
- 4. The hash function is simply to mod the number against the predefined hash size, here it's set to be HASHSIZE = 10000.
- 5. Compile using g++: g++ -std=c++0x TwoSum.cpp -o TwoSum.
+ 1. First implementation, unordered_map.
+ 2. Be careful when handling duplicates.
+ 3. Compile using g++: g++ -std=c++0x TwoSum.cpp -o TwoSum.
 */
 
 # include <iostream>
 # include <vector>
-# include <list>
 # include <unordered_map>
 
 using namespace std;
 
 class Solution {
 public:
-    vector<int> twoSum(vector<int> &numbers, int target) {    	
+    vector<int> twoSum(vector<int> &numbers, int target) {
+        int N = numbers.size();
+        unordered_map<int, int> map;
         vector<int> result;
-        int HASHSIZE = 10000;
-        typedef unordered_map< int, list<tuple> > hashTable;
-        hashTable HT;
-        for(int i = 0; i < numbers.size(); i++) {
-            tuple newNum;
-            newNum.index = i + 1;
-            newNum.value = numbers[i];
-            HT[(numbers[i]) % HASHSIZE].push_front(newNum);
-        }
-        int i = 0;
-        bool found = false;
-        while (!found && i < numbers.size()) {
-            int num1 = numbers[i];
-            int num1Index = i + 1;
-            int num2 = target - num1;
-            int num2Index = 0;
-            hashTable::const_iterator it = HT.find(num2 % HASHSIZE);
-            if (it != HT.end()) {
-                for(list<tuple>::const_iterator iter = HT[num2 % HASHSIZE].begin(); iter != HT[num2 % HASHSIZE].end(); iter++) {
-                    if(iter->value == num2) {
-                        num2Index = iter->index;
-                        result.push_back(num1Index < num2Index ? num1Index : num2Index);
-                        result.push_back(num1Index > num2Index ? num1Index : num2Index);
-                        found = true;
-                        break;
-                    }
-                }
+        for(int i = 0; i < N; ++i)
+            map[numbers[i]] = i+1;
+        for(int i = 0; i < N; ++i) {
+            int num = target-numbers[i];
+            if(map.find(num) != map.end() && i+1 != map[num]) {
+                result.push_back(i+1);
+                result.push_back(map[num]);
+                if (result[0] > result[1])
+                    swap(result[0], result[1]);
+                break;
             }
-            i++;
         }
         return result;
     }
-
-private:
-    struct tuple {
-        int index;
-        int value;
-    };
 };
 
 int main() {
-    int input[] = {2, 7, 11, 15};
+    //int input[] = {2, 7, 11, 15};
+    int input[] = {0, 3, 4, 0};
     vector<int> numbers (input, input + sizeof(input) / sizeof(int));
-    int target = 9;
+    int target = 0;
     Solution sol;
     vector<int> solVec = sol.twoSum(numbers, target);
     for (int i = 0; i < solVec.size(); i++)
