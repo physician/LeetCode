@@ -1,7 +1,7 @@
 /*
  Author:     physician
  Date:       Feb 10, 2014
- Update:     Feb 10, 2014
+ Update:     Feb 11, 2014
  Problem:    Subsets II
  Difficulty: Easy
  Source:     http://oj.leetcode.com/problems/subsets-ii/
@@ -40,7 +40,7 @@ using namespace std;
 class Solution {
 public:
     vector<vector<int> > subsetsWithDup(vector<int> &S) {
-        return subsetsWithDup1(S);
+        return subsetsWithDup2(S);
     }
 
 private:
@@ -73,6 +73,26 @@ private:
             }
         }
     }
+
+    vector<vector<int> > subsetsWithDup2(vector<int> &S) {
+        sort(S.begin(), S.end());
+        vector<vector<int> > result;
+        vector<int> path;
+        subsetsWithDup2Re(S, 0, path, result);
+        return result;
+    }
+
+    void subsetsWithDup2Re(vector<int> &S, int k, vector<int> &path, vector<vector<int> > &result) {
+        result.push_back(path);
+        for (int j = k; j < S.size(); ++j) {
+            path.push_back(S[j]);
+            subsetsWithDup2Re(S, j+1, path, result);
+            path.pop_back();
+            while(j < S.size() && S[j+1] == S[j])  // avoid duplicates
+                j++;
+        }
+    }
+
 };
 
 int main() {
