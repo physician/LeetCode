@@ -46,16 +46,15 @@ public:
 private:
     bool exist1(vector<vector<char> > &board, string word) {
         int M = board.size(), N = board[0].size();
-        for(int i = 0; i < M; ++i) {
-            for(int j = 0; j < N; ++j) {
+        vector<vector<bool> > visited(M, vector<bool>(N, false));
+        for(int i = 0; i < M; ++i)
+            for(int j = 0; j < N; ++j)
                 if (board[i][j] == word[0]) {
-                    vector<vector<bool> > visited(M, vector<bool>(N, false));
                     visited[i][j] = true;
                     if (exist1Re(board, visited, word, i, j, 0))
                         return true;
+                    visited[i][j] = false;
                 }
-            }
-        }
         return false;
     }
     bool exist1Re(vector<vector<char> > &board, vector<vector<bool> > &visited, string &word, int i, int j, int k) {
