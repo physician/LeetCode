@@ -60,8 +60,6 @@ private:
 
     bool isPalindrome(const string &s) {
         int N = s.size();
-        if (N < 0)
-            return false;
         if (N == 0 || N == 1)
             return true;
         if (s[0] == s[N-1] && isPalindrome(s.substr(1, N-2)))
