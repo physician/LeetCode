@@ -1,7 +1,7 @@
 /*
  Author:     physician
  Date:       Jan 12, 2014
- Update:     Jan 12, 2014
+ Update:     Jun 27, 2014
  Problem:    Binary Tree Preorder Traversal
  Difficulty: Easy
  Source:     http://oj.leetcode.com/problems/binary-tree-preorder-traversal/
@@ -24,12 +24,14 @@
 
  Notes:
  1. First implementation, recursion. Time: O(N), Space: O(N).
- 2. Factor the repetitive work into a helper function. e.g. void PreorderTraversalRecursion(TreeNode *, vector<int> &).
- 3. Compile using g++: g++ BinaryTreePreorderTraversal.cpp -o BinaryTreePreorderTraversal.
+ 2. Second implementation, iteration. Use stack. DFS.
+ 3. Factor the repetitive work into a helper function. e.g. void PreorderTraversalRecursion(TreeNode *, vector<int> &).
+ 4. Compile using g++: g++ BinaryTreePreorderTraversal.cpp -o BinaryTreePreorderTraversal.
 */
 
 # include <iostream>
 # include <vector>
+# include <stack>
 
 using namespace std;
 
@@ -53,6 +55,12 @@ struct TreeNode {
 class Solution {
 public:
     vector<int> preorderTraversal(TreeNode *root) {
+        return preorderTraversal2(root);
+    }
+
+private:
+    // recursive method
+    vector<int> preorderTraversal1(TreeNode *root) {
         vector<int> result;
         preorderTraversalRecursion(root, result);
         return result;
@@ -64,6 +72,25 @@ public:
         result.push_back(root->val);
         preorderTraversalRecursion(root->left, result);
         preorderTraversalRecursion(root->right, result);
+    }
+
+    // iterative method
+    vector<int> preorderTraversal2(TreeNode *root) {
+        vector<int> result;
+        stack<TreeNode *> stk;
+        TreeNode *curr = root;
+        while(curr || !stk.empty()) {
+            if (curr) {
+                result.push_back(curr->val);
+                stk.push(curr);
+                curr = curr->left;
+            }
+            else {
+                curr = stk.top()->right;
+                stk.pop();
+            }
+        }
+        return result;
     }
 };
 

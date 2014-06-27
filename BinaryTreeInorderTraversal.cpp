@@ -1,10 +1,10 @@
 /*
  Author:     physician
  Date:       Aug 23, 2013
- Update:     Aug 23, 2013
+ Update:     Jun 27, 2014
  Problem:    Binary Tree Inorder Traversal
  Difficulty: Easy
- Source:     http://leetcode.com/onlinejudge#question_94
+ Source:     https://oj.leetcode.com/problems/binary-tree-inorder-traversal/ 
 
  Problem Description:
  Binary Tree Inorder Traversal: 
@@ -26,12 +26,14 @@
 
  Notes:
  1. First implementation, recursion. Time: O(N), Space: O(N).
- 2. Could factor the repetitive work into a helper function. e.g. void InorderTraversalRecursion(TreeNode *, vector<int> &). More efficient.
- 3. Compile using g++: g++ BinaryTreeInorderTraversal.cpp -o BinaryTreeInorderTraversal.
+ 2. Second implementation, iteration. Use stack. DFS. 
+ 3. Could factor the repetitive work into a helper function. e.g. void InorderTraversalRecursion(TreeNode *, vector<int> &). More efficient.
+ 4. Compile using g++: g++ BinaryTreeInorderTraversal.cpp -o BinaryTreeInorderTraversal.
 */
 
 # include <iostream>
 # include <vector>
+# include <stack>
 
 using namespace std;
 
@@ -55,17 +57,43 @@ struct TreeNode {
 class Solution {
 public:
     vector<int> inorderTraversal(TreeNode *root) {
-        vector<int> inorder;
-        if (root != NULL) {
-            vector<int> leftSub = inorderTraversal(root->left);
-            for(int i = 0; i < leftSub.size(); i++)
-                inorder.push_back(leftSub[i]);
-            inorder.push_back(root->val);
-            vector<int> rightSub = inorderTraversal(root->right);
-            for(int i = 0; i < rightSub.size(); i++)
-                inorder.push_back(rightSub[i]);
+        return inorderTraversal2(root);
+    }
+
+private:
+    // recursive method
+    vector<int> inorderTraversal1(TreeNode *root) {
+        vector<int> result;
+        inorderTraversalRecursion(root, result);
+        return result;
+    }
+
+    void inorderTraversalRecursion(TreeNode *root, vector<int> &result) {
+        if (root == NULL)
+            return;
+        inorderTraversalRecursion(root->left, result);
+        result.push_back(root->val);
+        inorderTraversalRecursion(root->right, result);
+    }
+
+    // iterative method
+    vector<int> inorderTraversal2(TreeNode *root) {
+        vector<int> result;
+        stack<TreeNode *> stk;
+        TreeNode *curr = root;
+        while (curr || !stk.empty()) {
+            if (curr) {
+                stk.push(curr);
+                curr = curr->left;
+            }
+            else {
+                curr = stk.top();
+                result.push_back(curr->val);
+                curr = curr->right;
+                stk.pop();
+            }
         }
-        return inorder;
+        return result;
     }
 };
 

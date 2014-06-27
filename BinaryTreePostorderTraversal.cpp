@@ -1,7 +1,7 @@
 /*
  Author:     physician
  Date:       Jan 12, 2014
- Update:     Jan 12, 2014
+ Update:     Jun 27, 2014
  Problem:    Binary Tree Postorder Traversal
  Difficulty: Easy
  Source:     http://oj.leetcode.com/problems/binary-tree-postorder-traversal/
@@ -24,12 +24,15 @@
 
  Notes:
  1. First implementation, recursion. Time: O(N), Space: O(N).
- 2. Factor the repetitive work into a helper function. e.g. void PostorderTraversalRecursion(TreeNode *, vector<int> &).
- 3. Compile using g++: g++ BinaryTreePostorderTraversal.cpp -o BinaryTreePostorderTraversal.
+ 2. Second implementation, iteration. Use stack. DFS.
+ 3. Factor the repetitive work into a helper function. e.g. void PostorderTraversalRecursion(TreeNode *, vector<int> &).
+ 4. In iterative method, remember the last node processed. Use it to determine which way we are moving up the tree.
+ 5. Compile using g++: g++ BinaryTreePostorderTraversal.cpp -o BinaryTreePostorderTraversal.
 */
 
 # include <iostream>
 # include <vector>
+# include <stack>
 
 using namespace std;
 
@@ -53,6 +56,12 @@ struct TreeNode {
 class Solution {
 public:
     vector<int> postorderTraversal(TreeNode *root) {
+        return postorderTraversal2(root);
+    }
+
+private:
+    // recursive method
+    vector<int> postorderTraversal1(TreeNode *root) {
         vector<int> result;
         postorderTraversalRecursion(root, result);
         return result;
@@ -64,6 +73,33 @@ public:
         postorderTraversalRecursion(root->left, result);
         postorderTraversalRecursion(root->right, result);
         result.push_back(root->val);
+    }
+
+    // iterative method
+    vector<int> postorderTraversal2(TreeNode *root) {
+        vector<int> result;
+        stack<TreeNode *> stk;
+        TreeNode *curr = root;
+        TreeNode *last = NULL;
+        while (curr || !stk.empty()) {
+            if (curr) {
+                stk.push(curr);
+                curr = curr->left;
+            }
+            else {
+                TreeNode *peak = stk.top();
+                // moving up the tree from left child, go down the right child if exists
+                if (peak->right && last != peak->right)
+                    curr = peak->right;
+                // no right child, or moving up the tree from right child, process the node and pop
+                else {
+                    result.push_back(peak->val);
+                    stk.pop();
+                    last = peak;
+                }
+            }
+        }
+        return result;
     }
 };
 
