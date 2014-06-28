@@ -1,10 +1,10 @@
 /*
  Author:     physician
  Date:       Aug 27, 2013
- Update:     Aug 27, 2013
+ Update:     Jun 28, 2014
  Problem:    Convert Sorted List to Binary Search Tree
  Difficulty: Medium
- Source:     http://leetcode.com/onlinejudge#question_109
+ Source:     https://oj.leetcode.com/problems/convert-sorted-list-to-binary-search-tree/
 
  Problem Description:
  Convert Sorted List to Binary Search Tree: 
@@ -12,10 +12,11 @@
  Given a singly linked list where elements are sorted in ascending order, convert it to a height balanced BST.
 
  Notes:
- 1. First implementation, convert to array, recursion. Refer to Leetcode Q108.
- 2. Define intermediate variable to avoid repetitive calculation.
- 3. Use "new" keyword to define object in c++, return a pointer to the object.
- 4. Compile using g++: g++ ConvertSortedListtoBinarySearchTree.cpp -o ConvertSortedListtoBinarySearchTree.
+ 1. First implementation, convert to array, recursion.
+ 2. Second implementation, recursion, on linkedlist.
+ 3. Define intermediate variable to avoid repetitive calculation.
+ 4. Use "new" keyword to define object in c++, return a pointer to the object.
+ 5. Compile using g++: g++ ConvertSortedListtoBinarySearchTree.cpp -o ConvertSortedListtoBinarySearchTree.
 */
 
 # include <iostream>
@@ -58,6 +59,11 @@ struct TreeNode {
 class Solution {
 public:
     TreeNode *sortedListToBST(ListNode *head) {
+        return sortedListToBST2(head);
+    }
+
+private:
+    TreeNode *sortedListToBST1(ListNode *head) {
         // convert the sorted list to a sorted vector
         vector<int> sortedVec;
         ListNode *ptr = head;
@@ -65,11 +71,10 @@ public:
             sortedVec.push_back(ptr->val);
             ptr = ptr->next;
         } 
-        return sortedArrayToBST1(sortedVec, 0, sortedVec.size());
+        return sortedArrayToBST1Re(sortedVec, 0, sortedVec.size());
     }
 
-private:
-    TreeNode *sortedArrayToBST1(vector<int> &num, int begin, int end) {
+    TreeNode *sortedArrayToBST1Re(vector<int> &num, int begin, int end) {
         if (begin >= end)
             return NULL;
         else if (end-begin == 1) {
@@ -79,12 +84,36 @@ private:
         else {
             int mid = (begin+end)/2;
             TreeNode *node = new TreeNode(num[mid]);
-            node->left = sortedArrayToBST1(num, begin, mid);
-            node->right = sortedArrayToBST1(num, mid+1, end);
+            node->left = sortedArrayToBST1Re(num, begin, mid);
+            node->right = sortedArrayToBST1Re(num, mid+1, end);
             return node;
         }
     }
-   
+
+    TreeNode *sortedListToBST2(ListNode *head) {
+        return sortedListToBST2Re(head, 0, getLength(head)-1);
+    }
+
+    TreeNode *sortedListToBST2Re(ListNode *&head, int start, int end) {
+        if (start > end)
+            return NULL;
+        int mid = start + (end-start)/2;
+        TreeNode *left = sortedListToBST2Re(head, start, mid-1);
+        TreeNode *root = new TreeNode(head->val);
+        root->left = left;
+        head = head->next;
+        root->right = sortedListToBST2Re(head, mid+1, end);
+        return root;
+    }
+
+    int getLength(ListNode *head) {
+        int length = 0;
+        while(head != NULL) {
+            length++;
+            head = head->next;
+        }
+        return length;
+    }
 };
 
 
