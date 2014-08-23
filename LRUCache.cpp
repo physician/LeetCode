@@ -16,8 +16,8 @@
 
  Notes:
  1. First implementation, unordered_map and list.
- 2. List::iterator is not random access iterator, so cannot do +/- with them. 
-    They are bidirectional iterators, so the only movement operations you can do are ++ and --. Or use std::advance(it, +1)/std::advance(it, -1).
+ 2. List::iterator is not random access iterator, so cannot do it +/- n. 
+    It's bidirectional iterator, so the only movement operations allowed are ++/--. Or use std::advance(it, +n)/std::advance(it, -n).
     For C++11 there is also std::next/std::prev which gives you it +/- 1. 
  3. Compile using g++: g++ -std=c++0x LRUCache.cpp -o LRUCache.
 */
