@@ -49,24 +49,13 @@ public:
         int dp[M][N];
         dp[M-1][N-1] = (dungeon[M-1][N-1] >= 0) ? 1 : (1 - dungeon[M-1][N-1]);
         for (int i = M-2; i >= 0; --i)
-            dp[i][N-1] = getHPHelper(dungeon[i][N-1], dp[i+1][N-1]);
+            dp[i][N-1] = max(dp[i+1][N-1] - dungeon[i][N-1], 1);
         for (int j = N-2; j >= 0; --j)
-            dp[M-1][j] = getHPHelper(dungeon[M-1][j], dp[M-1][j+1]);
+            dp[M-1][j] = max(dp[M-1][j+1] - dungeon[M-1][j], 1);
         for (int i = M-2; i >= 0; --i) 
             for (int j = N-2; j >= 0; --j) 
-                dp[i][j] = min(getHPHelper(dungeon[i][j], dp[i+1][j]), 
-                               getHPHelper(dungeon[i][j], dp[i][j+1]));
+                dp[i][j] = min(max(dp[i+1][j]-dungeon[i][j], 1), max(dp[i][j+1]-dungeon[i][j],1));
         return dp[0][0];
-    }
-
-private:
-    int getHPHelper(int curVal, int nextHP) {
-        int hp = 0;
-        if (curVal >= 0)
-            hp = (nextHP - curVal > 0) ? (nextHP - curVal) : 1;
-        else
-            hp = nextHP - curVal;
-        return hp;
     }
 };
 
