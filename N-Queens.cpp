@@ -49,7 +49,7 @@ public:
         return solveNQueens1(n);
     }
 
-    // bit namipulation
+    // bit manipulation
     vector<vector<string> > solveNQueens1(int n) {
         vector<vector<string> > result;
         vector<string> board (n, string(n, '.'));
