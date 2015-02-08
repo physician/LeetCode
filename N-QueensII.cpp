@@ -29,7 +29,7 @@ using namespace std;
 class Solution {
 public:
     int totalNQueens(int n) {
-        return totalNQueens2(n);
+        return totalNQueens1(n);
     }
 
     // bit manipulation
